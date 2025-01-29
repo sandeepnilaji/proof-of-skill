@@ -26,7 +26,7 @@ export default function Checklist({ selectedSkills }) {
  
   ];
 
-  const candidateScores = selectedSkills.reduce((acc, skill) => {
+  const candidateScores = selectedSkills?.reduce((acc, skill) => {
     if (!acc[skill.username]) {
       acc[skill.username] = {};
     }
@@ -34,7 +34,7 @@ export default function Checklist({ selectedSkills }) {
     return acc;
   }, {});
 
-  const candidateNames = Object.keys(candidateScores);
+  const candidateNames = Object.keys(candidateScores || {});
 
   const getColorByScore = (score) => {
     if (!score) return "bg-gray-200";
