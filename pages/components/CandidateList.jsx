@@ -62,28 +62,21 @@ export default function CandidateList() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
+      <div className="p-2 text-gray-500">
+      &#x2190; {" "} Back to My Jobs
+      </div>
+      <div className="flex justify-between items-center">
+      <div className="p-6 text-[32px] text-gray-400">Posk_UXdesigner_sr001</div>
+      <div className="p-6 text-[24px] text-gray-400">23 Candidates</div>
+      </div>
       <div>
         {candidates.length > 0 ? (
           <div className="flex flex-col gap-4">
-            <div className="w-full p-4">
-              {selectedSkills.length === 0 ? (
-                <p className="text-gray-500">Select a candidate to compare skills</p>
-              ) : (
-                <div className="flex gap-2 overflow-x-auto pb-2">
-                  {Array.from(new Set(selectedSkills.map(skill => skill.username))).map((username, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm whitespace-nowrap"
-                    >
-                      {username}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
             <div className="flex">
-              <div className="p-4 border-[1px] border-black w-[300px] max-h-[500px] overflow-scroll rounded-[12px]">
+              <div className="border-[1px] border-black w-[300px] max-h-[500px] overflow-hidden">
+                <div className="flex justify-center items-center border-b p-4">Most recommended</div>
+                <div className="max-h-[500px] overflow-y-auto pl-4 pb-4 pr-4">
                 {candidates?.map((candidate, index) => (
                   <div key={index}>
                     <button 
@@ -100,9 +93,11 @@ export default function CandidateList() {
                       </div>
                     </button>
                   </div>
-                ))}
+                ))}</div>
               </div>
+              <div className="w-full">
               <Checklist selectedSkills={selectedSkills} />
+              </div>
             </div>
           </div>
         ) : (

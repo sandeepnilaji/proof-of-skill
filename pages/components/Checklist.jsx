@@ -1,12 +1,23 @@
-export default function Checklist({ selectedSkills }) {
+import React from 'react';
+
+const Checklist = ({ selectedSkills }) => {
   const skills = [
-    "Wireframing and Prototyping",
     "Experience",
     "Can join in",
     "Minimum salary expected",
     "Creating Wireframes",
     "Creating Basic Prototypes",
     "Creation of Brands",
+    "Design Principles",
+    "Design Software & Tools",
+    "Information Architecture and User Flows",
+    "Interaction Design",
+    "Typography",
+    "Usability Testing & Feedback",
+    "User Personas",
+    "User Research and Survey Design",
+    "Visual Communication",
+    "Wireframing and Prototyping",
     "Applying Color Theory Using Figma for Design",
     "Application of Typography",
     "Creating Effective Icons",
@@ -22,8 +33,7 @@ export default function Checklist({ selectedSkills }) {
     "Crafting Effective Questions",
     "Creating Effective Surveys",
     "Creating Sitemaps",
-    "Designing User Flows",
- 
+    "Designing User Flows"
   ];
 
   const candidateScores = selectedSkills?.reduce((acc, skill) => {
@@ -33,6 +43,9 @@ export default function Checklist({ selectedSkills }) {
     acc[skill.username][skill.name] = skill.consensus_score;
     return acc;
   }, {});
+
+
+  console.log(candidateScores,"candidateScores")
 
   const candidateNames = Object.keys(candidateScores || {});
 
@@ -46,28 +59,64 @@ export default function Checklist({ selectedSkills }) {
     return "bg-[#003F0B]";
   };
 
+  const getRowBackground = (skill) => {
+    if (skill === "Experience") return "bg-[#E8F5ED]";
+    if (skill === "Can join in" || skill === "Minimum salary expected") return "bg-[#FDF4ED]";
+    return "";
+  };
+
   return (
-    <div className="p-4">
-      <h2 className="text-lg font-bold">Skills Checklist</h2>
+    <div className="pl-4">
+      <div className="flex border-b justify-between mb-5">
+        <div><button className="px-4 py-2 bg-[#209653] border border-[#209653] text-white">
+          Compare View
+        </button>
+        <button className="px-4 py-2 bg-white border border-black">
+          Individual View
+        </button>
+        <button className="px-4 py-2 bg-white border border-black">
+          Shortlisted Candidates
+        </button> </div>
+       <div className='flex justify-center items-center gap-2 py-2'>
+         <div className='border border-black p-4'>
+        &#x2190;
+        </div>
+        <div className='border border-black p-4'>
+        &#x2192;
+        </div></div>
+      </div>
       <table className="min-w-full">
         <thead>
           <tr>
             <th className="px-4 py-2"></th>
             {candidateNames.map((name, index) => (
-              <th key={index} className="px-4 py-2">{name}</th>
+              <th key={index} className="text-[12px] px-2 py-2 text-center">
+                <div className="relative">
+                  <div className="w-5 h-5 rounded-full bg-gray-300 mx-auto"></div>
+                  <div className="absolute top-[-20px] right-[-10px] transform rotate-[-45deg] whitespace-nowrap">
+                    {name ? name.split(' ').map(n => n.charAt(0)).join('') : ''}
+                  </div>
+                </div>
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
           {skills.map((skill, index) => (
-            <tr key={index} className="">
-              <td className="px-4 py-2">{skill}</td>
+            <tr key={index} >
+              <td className="px-1 py-1 text-left">{skill}</td>
               {candidateNames.map((name) => (
-                <td key={name} className="px-4 py-2">
-                  <div 
-                    className={`w-6 h-3 ${getColorByScore(candidateScores[name][skill])}`}
-                    title={candidateScores[name][skill] || 'N/A'}
-                  />
+                <td key={name} className="px-2 py-2 text-center">
+                  {["Experience", "Can join in", "Minimum salary expected"].includes(skill) ? (
+                    <div className={`${getRowBackground(skill)} w-8 `} title={candidateScores[name][skill] || '0'}>
+                      {candidateScores[name][skill] || '0'}
+                    </div>
+                  ) : (
+                    <div 
+                      className={`w-8 h-4 ${getColorByScore(candidateScores[name][skill])}`}
+                      title={candidateScores[name][skill] || '0'}
+                    />
+                  )}
                 </td>
               ))}
             </tr>
@@ -76,4 +125,6 @@ export default function Checklist({ selectedSkills }) {
       </table>
     </div>
   );
-}
+};
+
+export default Checklist;
